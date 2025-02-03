@@ -1,0 +1,228 @@
+#include <Wire.h>
+#include <Servo.h>
+#include <BasicLinearAlgebra.h>
+#include <Servo.h>
+#include <math.h>
+
+#define SLAVE_ADDRESS 0x12
+
+using namespace BLA;
+
+Servo s1;
+Servo s2;
+Servo s3;
+
+int s1_comp = 96;
+int s2_comp = 97;
+int s3_comp = 94;
+int sv = 90;
+
+
+
+//gains
+double Kp = 10;
+double Kd = 10;
+double Ki = 10;
+
+//time step for refresh
+double dt = 10;
+
+//for PID error
+double e_P = 10;
+double e_D = 0;
+double e_I = 0;
+
+//random
+double previous = 0;
+double angle = 0;
+float x_angle = 0;
+float y_angle = 0;
+//current_angles = [0,0,0];
+int arm_rot = 120;
+
+//kinematic constants (robot dimensions)
+int pk = 60;
+int bk = 40;
+int b = 30;
+int c = 112;
+
+//matricies for servo angle calculations
+BLA::Matrix<3,3> A;
+BLA::Matrix<3,1> p1 = {pk,0,0};
+BLA::Matrix<3,1> p2 = {-0.5*pk,pk*sin((120*PI)/180),0};
+BLA::Matrix<3,1> p3 = {-0.5*pk,pk*sin((240*PI)/180),0};
+
+BLA::Matrix<3,1> b1 = {bk,0,0};
+BLA::Matrix<3,1> b2 = {-0.5*bk,bk*sin((120*PI)/180),0};
+BLA::Matrix<3,1> b3 = {-0.5*bk,bk*sin((240*PI)/180),0};
+
+float theta = 0;
+float sigma = 0;
+BLA::Matrix<3,3> Ry = {cos(theta*PI/180),0,sin(theta*PI/180),0,1,0,-sin(theta*PI/180),0,cos(theta*PI/180)};
+BLA::Matrix<3,3> Rx = {1,0,0,0,cos(sigma*PI/180),-sin(sigma*PI/180),0,sin(sigma*PI/180),cos(sigma*PI/180)};
+BLA::Matrix<3,3> Rz = {cos(arm_rot*PI/180),-sin(arm_rot*PI/180),0,sin(arm_rot*PI/180),cos(arm_rot*PI/180),0,0,0,1};
+
+BLA::Matrix<3,1> T = {0,0,112};
+
+
+
+
+void setup() {
+  Wire.begin(SLAVE_ADDRESS); // Initialize as an I2C slave
+  Wire.onReceive(receiveEvent); // Set up receive handler
+  Wire.onRequest(requestEvent); // Set up request handler
+  Serial.begin(9600);
+  Serial.println("started");
+
+  s1.attach(9);
+  s2.attach(10);
+  s3.attach(11);
+
+  s1.write(s1_comp);
+  s2.write(s2_comp);
+  s3.write(s3_comp);
+
+  Serial.println("test");
+  servo_angles(10,0);
+}
+
+void loop() {
+  // Main loop does nothing; events are handled via interrupts
+  
+  servo_angles(-10,0);//JUST FOR TESTING
+  delay(500);
+  servo_angles(3,0);
+  delay(500);
+  
+  
+  
+}
+
+// Handle data received from OpenMV
+void receiveEvent(int numBytes) {
+  //runs every time an interrupt is seen
+  //need to think about what happens to data that comes in while this is still running
+
+  //just doing this for X right now, need to break message into x and y and then run PID twice
+  int reading = Wire.read();//lets say we read the error of X
+  
+  //x_angle = PID(reading);//sends to PID controller
+  x_angle = 10;
+  y_angle = 10;
+  //float current_angles = servo_angles(x_angle,y_angle);
+
+
+  //move_servos();
+
+}
+
+// Handle data request from OpenMV
+void requestEvent() {
+  Wire.write("Hi OpenMV!"); // Send a response
+}
+
+
+float PID(double error){
+  e_D = error - previous;
+  previous = error;
+  e_I = error * dt;
+  angle = (Kp * error) + (Kd * e_D) + (Ki * e_I);
+
+  return angle;
+}
+
+float servo_angles(float x_angle, float y_angle){
+  //this is where the kinematics will go, when I get an x angle and a y angle I sent it here
+  theta = x_angle;
+  BLA::Matrix<3,3> X = {cos(theta*PI/180),0,sin(theta*PI/180),0,1,0,-sin(theta*PI/180),0,cos(theta*PI/180)};
+  
+
+  BLA::Matrix<3,1> l1 = T + X*p1 - b1;
+  BLA::Matrix<3,1> l2 = T + X*p2 - b2;
+  BLA::Matrix<3,1> l3 = T + X*p3 - b3;
+
+  float l1_norm = mag(l1(0),l1(1),l1(2));
+  float l2_norm = mag(l2(0),l2(1),l2(2));
+  float l3_norm = mag(l3(0),l3(1),l3(2));
+
+  float l2_rot = 360 - (180 - abs((180/PI)*atan((abs(l2(1))/abs(l2(0))))));
+  float l3_rot = 180 - abs((180/PI)*atan((abs(l3(1))/abs(l3(0)))));
+
+  Serial.println("l2 rotation angle: ");
+  Serial.println(l2_rot);
+  Serial.println("l3 rotation angle: ");
+  Serial.println(l3_rot);
+
+  BLA::Matrix<3,3> Z = {cos(l2_rot*PI/180),-sin(l2_rot*PI/180),0,sin(l2_rot*PI/180),cos(l2_rot*PI/180),0,0,0,1};
+  BLA::Matrix<3,3> Z2 = {cos(l3_rot*PI/180),-sin(l3_rot*PI/180),0,sin(l3_rot*PI/180),cos(l3_rot*PI/180),0,0,0,1};
+
+  BLA::Matrix<3,1> l1_0plane;
+  BLA::Matrix<3,1> l2_120plane = Z * l2;
+  BLA::Matrix<3,1> l3_240plane = Z2 * l3;
+
+  Serial.println("base L2: ");
+  Serial.println(l2);
+  Serial.println("rotated L2: ");
+  Serial.println(l2_120plane);
+
+  float angle_1 = trig(l1(0),l1(2),l1_norm,c,b);
+  float angle_2 = trig(abs(l2_120plane(0)),abs(l2_120plane(2)),l2_norm,c,b);
+  float angle_3 = trig(abs(l3_240plane(0)),abs(l3_240plane(2)),l3_norm,c,b);
+
+  Serial.println("raw numbers: ");
+  Serial.println(l2(0));
+  Serial.println(l2(2));
+  Serial.println(l2_norm);
+  Serial.println(b);
+  Serial.println(c);
+
+  Serial.print("l1: ");
+  Serial.println(l1);
+  Serial.print("l2: ");
+  Serial.println(l2);
+  Serial.print("l3: ");
+  Serial.println(l3);
+
+  Serial.print("norm l1: ");
+  Serial.println(l1_norm);
+  Serial.print("norm l2: ");
+  Serial.println(l2_norm);
+  Serial.print("norm l2: ");
+  Serial.println(l3_norm);
+
+  Serial.print("angle 1: ");
+  Serial.println(angle_1);
+  Serial.print("angle 2: ");
+  Serial.println(angle_2);
+  Serial.print("angle 3: ");
+  Serial.println(angle_3);
+
+
+  s1.write(s1_comp - angle_1);
+  s2.write(s2_comp - angle_2);
+  s3.write(s3_comp - angle_3);
+  //float numbers[] = {10, 20, 30};  // Static array to persist memory
+  //return numbers;  // Return pointer to the array
+}
+
+float mag(float x,float y,float z){
+  float magnitude = sqrt(x*x + y*y + z*z);
+
+  return magnitude;
+}
+
+float trig(double x, double y, double a, double b, double c) {
+    double term1 = atan(y / x) * (180/PI);
+    double term2 = acos((b * b - c * c - a * a) / (-2.0 * a * c)) * (180/PI);
+    Serial.println(term1);
+    Serial.println(term2);
+    return term1-term2;
+}
+/*
+void move_servos(angles){
+  //this is where the servos will then move to their ideal position
+  Serial.print("n/a")
+  //move to the angles in here!! - need an algorithm for this
+
+}
+*/
