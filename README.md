@@ -13,10 +13,7 @@ To use the WeatherForecastApp, follow these steps:
 2. Select the desired date range for your forecast.
 3. Click "Get Forecast" to view the weather data.
 
-#this is my repo
-#this contains all versions of my scripts
-
-#heres how I did kinematics
+## Kinematics
 
 #translate frame in camera
 ![image](https://github.com/user-attachments/assets/9df9e9ca-ba14-47f0-bf1a-038a44bec067)
