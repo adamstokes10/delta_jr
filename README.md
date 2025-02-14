@@ -51,6 +51,10 @@ I started with SPI but this was diffucult since they needed to be in clock sync.
 
 ### Alpha version
 
+the platform moved around so much....this was due to many bad tolerance stackups and the soft plastic....beta version fixed this using shorter c link and out of threaded rod
+
+also the acrylic mounting piece was too small to be practical... for beta I decided to put a hole in the acrylic and properly measure 120 degrees instead of press fitting these on
+
 <img src="https://github.com/user-attachments/assets/b495f711-b998-4229-93f0-d0f747f591f0" alt="Alt Text" style="width:40%; height:auto;">
 
 
