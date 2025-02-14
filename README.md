@@ -1,7 +1,5 @@
 # this is a ball balanacing robot I made in 5 weeks at around 5 hours per week, mainly to prove I could do it
 
-source code is attached, includes code I used on OpenMV MicroPython, and my Arduino C++ master file. Solidworks STEP files are also included. Use without reference is OK
-
 this is just a high level paste of all systems, if your looking for walkthrough tutorial check out these links:
 
 https://raw.org/research/inverse-kinematics-of-a-stewart-platform/
