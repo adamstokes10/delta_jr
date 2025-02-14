@@ -11,13 +11,13 @@ my goals for this:
 - learn PID implemenentation and practical tuning
 - learn practical inverse kinematics
 
-
 ## Table of Contents
 - [Usage](#usage)
 - [Kinematics](#kinematics)
 - [Mechanical Design](#mechanical_design)
 - [Electrical Design](#electrical_design)
 - [PID Control Design](#PIDcontrol)
+- [Communication between Arduino and OpenMV](#communication)
 
 ## Usage
 1. camera takes image
@@ -47,7 +47,7 @@ I started with SPI but this was diffucult since they needed to be in clock sync.
 
 ### Beta version
 
-![image](https://github.com/user-attachments/assets/d76cc83b-b593-41ef-9617-036e46de03cb)
+<img src="https://github.com/user-attachments/assets/d76cc83b-b593-41ef-9617-036e46de03cb" alt="Alt Text" style="width:40%; height:auto;">
 
 ### Alpha version
 
@@ -55,7 +55,7 @@ the platform moved around so much....this was due to many bad tolerance stackups
 
 also the acrylic mounting piece was too small to be practical... for beta I decided to put a hole in the acrylic and properly measure 120 degrees instead of press fitting these on
 
-<img src="https://github.com/user-attachments/assets/b495f711-b998-4229-93f0-d0f747f591f0" alt="Alt Text" style="width:40%; height:auto;">
+<img src="https://github.com/user-attachments/assets/b495f711-b998-4229-93f0-d0f747f591f0" alt="Alt Text" style="width:35%; height:auto;">
 
 Joints: RC ball joints: https://www.amazon.ca/dp/B0DK321WTZ?ref=ppx_yo2ov_dt_b_fed_asin_title
 
@@ -68,11 +68,15 @@ Power supply: 24V 10A DC power supply: https://www.amazon.ca/dp/B0CZ92WTQ3?ref=p
 
 Motors: MG995 metal gear 4.8-6V 180 deg servos: https://www.amazon.ca/dp/B07RFRLRV8?ref=ppx_yo2ov_dt_b_fed_asin_title
 
-Camera: OpenMV CAM RT1062: https://www.amazon.ca/dp/B0CWP7LT57?ref=ppx_yo2ov_dt_b_fed_asin_title spent my coop money on this one......
+Camera: OpenMV CAM RT1062: https://www.amazon.ca/dp/B0CWP7LT57?ref=ppx_yo2ov_dt_b_fed_asin_title spent some coop money here...
 
 Arduino: Arduino Uno R3
 
 
+## PID_Control
+
+
+## Communication
 
 
 
