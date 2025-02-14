@@ -1,15 +1,18 @@
 # this is a ball balanacing robot I made in 5 weeks at around 5 hours per week, mainly to prove I could do it
 this is just a high level paste of all systems, if your looking for walkthrough tutorial check out these links:
+
 https://raw.org/research/inverse-kinematics-of-a-stewart-platform/
+
 https://www.youtube.com/watch?v=jyQyusoxlW8
+
 my goals for this:
+
 - learn communication between hardware
 - learn PID implemenentation and practical tuning
 - learn practical inverse kinematics
 
 
 ## Table of Contents
-- [Installation](#installation)
 - [Usage](#usage)
 - [Kinematics](#kinematics)
 - [Mechanical Design](#mechanical_design)
