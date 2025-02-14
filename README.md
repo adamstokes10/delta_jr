@@ -1,4 +1,17 @@
-# delta_jr
+# this is a robot I made in my 4B term at school, I did this in 5 weeks at around 5 hours per week, mainly to prove I wasnt an idiot
+
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Usage
+To use the WeatherForecastApp, follow these steps:
+
+1. Enter your location in the search bar.
+2. Select the desired date range for your forecast.
+3. Click "Get Forecast" to view the weather data.
 
 #this is my repo
 #this contains all versions of my scripts
