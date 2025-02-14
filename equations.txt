@@ -1,0 +1,5 @@
+﻿"mounting hole"= 5.5mm
+"servo holes"= 4.5mm
+"mounting hole dist from center"= 25mm
+"mounting sketch rotation"= 11.60507646deg
+"servo hole dist from center"= 45mm
