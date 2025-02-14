@@ -8,7 +8,7 @@ https://www.youtube.com/watch?v=jyQyusoxlW8
 
 my goals for this:
 
-- learn communication between hardware
+- learn communication between hardware, and interfacing with camera
 - learn PID implemenentation and practical tuning
 - learn practical inverse kinematics
 
