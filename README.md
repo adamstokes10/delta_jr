@@ -57,8 +57,28 @@ also the acrylic mounting piece was too small to be practical... for beta I deci
 
 <img src="https://github.com/user-attachments/assets/b495f711-b998-4229-93f0-d0f747f591f0" alt="Alt Text" style="width:40%; height:auto;">
 
+Joints: RC ball joints: https://www.amazon.ca/dp/B0DK321WTZ?ref=ppx_yo2ov_dt_b_fed_asin_title
+
 
 ## Electrical_Design
+
+very simple electical for this one
+
+Power supply: 24V 10A DC power supply: https://www.amazon.ca/dp/B0CZ92WTQ3?ref=ppx_yo2ov_dt_b_fed_asin_title
+
+Motors: MG995 metal gear 4.8-6V 180 deg servos: https://www.amazon.ca/dp/B07RFRLRV8?ref=ppx_yo2ov_dt_b_fed_asin_title
+
+Camera: OpenMV CAM RT1062: https://www.amazon.ca/dp/B0CWP7LT57?ref=ppx_yo2ov_dt_b_fed_asin_title spent my coop money on this one......
+
+Arduino: Arduino Uno R3
+
+
+
+
+
+
+
+
 
 
 ## PID_Control
