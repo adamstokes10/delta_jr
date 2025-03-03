@@ -1,7 +1,21 @@
+# This work is licensed under the MIT license.
+# Copyright (c) 2013-2024 OpenMV LLC. All rights reserved.
+# https://github.com/openmv/openmv/blob/master/LICENSE
+#
+# UART Control
+#
+# This example shows how to use the serial port on your OpenMV Cam. Attach pin
+# P4 to the serial input of a serial LCD screen to see "Hello World!" printed
+# on the serial LCD display.
+
 import time
 from machine import UART
 import sensor
 import math
+import machine
+
+#machine.reset()
+
 
 sensor.reset()
 sensor.set_pixformat(sensor.GRAYSCALE)  # grayscale is faster RGB565
@@ -74,11 +88,13 @@ def calibration(xmeas,ymeas,xa,ya,xt,yt,xangle,yangle):
     #print("PID output: ",xangle,yangle)
 
 
-P = 0.08
-D = 0.05
-I = 0.02
+P = 0.1
+D = 0.015
+I = 0.005
+#D = 0.05
+#I = 0.02
 x_center = 160
-y_center = 115
+y_center = 105
 angle_comp = 69 * math.pi / 180
 
 x_meas = 0
@@ -87,14 +103,14 @@ y_meas = 0
 x_pid = PID(kp=P, ki=I, kd=D, setpoint=0, output_limits=(-5, 5))
 y_pid = PID(kp=P, ki=I, kd=D, setpoint=0, output_limits=(-5, 5))
 
-sw = 200
+sw = 240
 
 while True:
     clock.tick()
     img = sensor.snapshot()
 
     #find circles
-    for c in img.find_circles(roi=(int((320-sw)/2),int((240-sw)/2),sw,sw),threshold=2000,x_margin=10,y_margin=10,r_margin=10,r_min=35,r_max=37,r_step=2):
+    for c in img.find_circles(roi=(int((320-sw)/2),int((240-sw)/2),sw,sw),threshold=2000,x_margin=10,y_margin=10,r_margin=10,r_min=48,r_max=52,r_step=2):
         img.draw_circle(c.x(), c.y(), c.r(), color=(255, 0, 0))
         x_meas = c[0]
         y_meas = c[1]
