@@ -48,6 +48,9 @@ I started with SPI but this was diffucult since they needed to be in clock sync.
 ## Mechanical_Design
 
 ### Beta version
+final version:
+
+<img src="https://github.com/user-attachments/assets/ebdb716f-e6a1-4217-b284-ed50eae8ee5f" alt="Alt Text" style="width:40%; height:auto;">
 
 <img src="https://github.com/user-attachments/assets/d76cc83b-b593-41ef-9617-036e46de03cb" alt="Alt Text" style="width:40%; height:auto;">
 
@@ -81,7 +84,7 @@ Tuning: https://www.youtube.com/watch?v=dZ8lzDi3cXY
 
 
 ## Communication
-
+UART from OpenMV cam Rt1062 to Arduino Uno. See multiple_bytes.ino for how to receive multiple bytes in serial
 
 
 
