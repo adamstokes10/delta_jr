@@ -76,6 +76,8 @@ Arduino: Arduino Uno R3
 
 
 ## PID_Control
+Tuning: https://www.youtube.com/watch?v=dZ8lzDi3cXY
+
 
 
 ## Communication
