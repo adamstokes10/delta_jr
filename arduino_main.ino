@@ -24,8 +24,8 @@ Servo s1;
 Servo s2;
 Servo s3;
 
-int s1_comp = 96;
-int s2_comp = 97;
+int s1_comp = 92;
+int s2_comp = 98;
 int s3_comp = 94;
 int sv = 90;
 
@@ -41,10 +41,10 @@ float y_angle = 0;
 int arm_rot = 120;
 
 //kinematic constants (robot dimensions)
-int pk = 60;
-int bk = 40;
+int pk = 58;
+int bk = 46;
 int b = 30;
-int c = 75;
+int c = 81;
 
 //matricies for servo angle calculations
 BLA::Matrix<3,3> A;
@@ -63,7 +63,7 @@ BLA::Matrix<3,3> Ry = {cos(theta*PI/180),0,sin(theta*PI/180),0,1,0,-sin(theta*PI
 BLA::Matrix<3,3> Rx = {1,0,0,0,cos(sigma*PI/180),-sin(sigma*PI/180),0,sin(sigma*PI/180),cos(sigma*PI/180)};
 BLA::Matrix<3,3> Rz = {cos(arm_rot*PI/180),-sin(arm_rot*PI/180),0,sin(arm_rot*PI/180),cos(arm_rot*PI/180),0,0,0,1};
 
-BLA::Matrix<3,1> T = {0,0,76};
+BLA::Matrix<3,1> T = {0,0,80};
 
 
 float x = 0;
@@ -83,8 +83,9 @@ void setup() {
   s3.write(s3_comp);
 
   Serial.println("test");
-  servo_angles(10,0);
+  servo_angles(0,0);
 }
+
 float bytee = 0;
 void loop() {
     
@@ -116,7 +117,7 @@ void loop() {
     //servo_angles(buffer[0],buffer[1]);
 
 
-
+    //servo_angles(0,0);
     /*
     servo_angles(10,0);
     delay(1500);
